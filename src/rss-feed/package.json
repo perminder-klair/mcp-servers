@@ -1,0 +1,27 @@
+{
+  "name": "mcp-rss-feed",
+  "version": "1.0.0",
+  "description": "MCP server for fetching and parsing RSS feeds",
+  "main": "build/index.js",
+  "type": "module",
+  "bin": {
+    "mcp-server-obsidian": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc && shx chmod +x dist/*.js",
+    "prepare": "npm run build",
+    "watch": "tsc --watch"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "rss-parser": "^3.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "shx": "^0.3.4",
+    "typescript": "^5.6.2"
+  }
+}

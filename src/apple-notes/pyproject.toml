@@ -1,0 +1,34 @@
+[project]
+name = "apple-notes-mcp"
+version = "0.1.1"
+description = "Read local Apple Notes sqlite database and provide it as a context protocol server for Claude Desktop."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+ "httpx>=0.28.0",
+ "mcp>=1.0.0",
+ "protobuf>=5.29.0",
+ "python-dotenv>=1.0.1",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: MacOS",
+]
+[[project.authors]]
+name = "Navishkar Rao"
+email = "sirmews@gmail.com"
+
+[build-system]
+requires = [ "hatchling",]
+build-backend = "hatchling.build"
+
+[project.scripts]
+apple-notes-mcp = "apple_notes_mcp:main"
+
+[tool.apple-notes-mcp]
+server_name = "apple-notes-mcp"
+
+[project.urls]
+Homepage = "https://sirmews.github.io/apple-notes-mcp/"
+Issues = "https://github.com/sirmews/apple-notes-mcp/issues"

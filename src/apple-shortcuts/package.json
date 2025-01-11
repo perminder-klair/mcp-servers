@@ -1,0 +1,35 @@
+{
+  "name": "mcp-server-apple-shortcuts",
+  "version": "1.0.1",
+  "description": "MCP server for automation using Apple Shortcuts",
+  "main": "index.js",
+  "type": "module",
+  "keywords": [],
+  "author": "Recurse Chat (https://recurse.chat)",
+  "homepage": "https://recurse.chat",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "shx": "^0.3.4",
+    "zod": "^3.24.1"
+  },
+  "bin": {
+    "mcp-server-apple-shortcuts": "./build/index.js"
+  },
+  "workspaces": [
+    "src/*"
+  ],
+  "files": [
+    "build"
+  ],
+  "scripts": {
+    "build": "tsc && shx chmod +x build/*.js",
+    "prepare": "npm run build",
+    "watch": "tsc --watch",
+    "inspector": "npx @modelcontextprotocol/inspector build/index.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "typescript": "^5.7.2"
+  }
+}
