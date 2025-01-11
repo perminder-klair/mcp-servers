@@ -1,0 +1,16 @@
+{
+  "name": "supabase-server",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\""
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.47.12"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.1.1",
+    "@types/node": "^22.10.5",
+    "typescript": "^5.7.3"
+  }
+}

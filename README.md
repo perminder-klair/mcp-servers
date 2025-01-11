@@ -1,5 +1,17 @@
 # Model Context Protocol servers
 
+To inspect the MCP servers, run the following command:
+
+```sh
+npm run inspector
+```
+
+Path to the config file for Claude Desktop:
+
+```
+/Users/klair/Library/Application Support/Claude/claude_desktop_config.json
+```
+
 This repository is a collection of *reference implementations* for the [Model Context Protocol](https://modelcontextprotocol.io/) (MCP), as well as references
 to community built servers and additional resources.
 
@@ -133,8 +145,8 @@ A growing set of community-developed and maintained servers demonstrates various
 
 These are high-level frameworks that make it easier to build MCP servers.
 
-* [EasyMCP](https://github.com/zcaceres/easy-mcp/) (TypeScript)
-* [FastMCP](https://github.com/punkpeye/fastmcp) (TypeScript)
+- [EasyMCP](https://github.com/zcaceres/easy-mcp/) (TypeScript)
+- [FastMCP](https://github.com/punkpeye/fastmcp) (TypeScript)
 
 ## 📚 Resources
 
@@ -160,9 +172,11 @@ Additional resources on MCP.
 ## 🚀 Getting Started
 
 ### Using MCP Servers in this Repository
+
 Typescript-based servers in this repository can be used directly with `npx`.
 
 For example, this will start the [Memory](src/memory) server:
+
 ```sh
 npx -y @modelcontextprotocol/server-memory
 ```
@@ -170,6 +184,7 @@ npx -y @modelcontextprotocol/server-memory
 Python-based servers in this repository can be used directly with [`uvx`](https://docs.astral.sh/uv/concepts/tools/) or [`pip`](https://pypi.org/project/pip/). `uvx` is recommended for ease of use and setup.
 
 For example, this will start the [Git](src/git) server:
+
 ```sh
 # With uvx
 uvx mcp-server-git
@@ -182,6 +197,7 @@ python -m mcp_server_git
 Follow [these](https://docs.astral.sh/uv/getting-started/installation/) instructions to install `uv` / `uvx` and [these](https://pip.pypa.io/en/stable/installation/) to install `pip`.
 
 ### Using an MCP Client
+
 However, running a server on its own isn't very useful, and should instead be configured into an MCP client. For example, here's the Claude Desktop configuration to use the above server:
 
 ```json

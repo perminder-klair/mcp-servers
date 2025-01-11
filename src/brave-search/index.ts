@@ -7,6 +7,7 @@ import {
   ListToolsRequestSchema,
   Tool,
 } from "@modelcontextprotocol/sdk/types.js";
+import fetch from "node-fetch";
 
 const WEB_SEARCH_TOOL: Tool = {
   name: "brave_web_search",
@@ -156,7 +157,7 @@ interface BravePoiResponse {
 }
 
 interface BraveDescription {
-  descriptions: {[id: string]: string};
+  descriptions: { [id: string]: string };
 }
 
 function isBraveWebSearchArgs(args: unknown): args is { query: string; count?: number } {
@@ -232,7 +233,7 @@ async function performLocalSearch(query: string, count: number = 5) {
   }
 
   const webData = await webResponse.json() as BraveWeb;
-  const locationIds = webData.locations?.results?.filter((r): r is {id: string; title?: string} => r.id != null).map(r => r.id) || [];
+  const locationIds = webData.locations?.results?.filter((r): r is { id: string; title?: string } => r.id != null).map(r => r.id) || [];
 
   if (locationIds.length === 0) {
     return performWebSearch(query, count); // Fallback to web search
