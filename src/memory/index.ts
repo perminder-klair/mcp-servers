@@ -12,7 +12,7 @@ import { fileURLToPath } from 'url';
 
 
 // Define the path to the JSONL file, you can change this to your desired local path
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __dirname = process.env.MCP_SERVER_MEMORY_FILE_PATH || path.dirname(fileURLToPath(import.meta.url));
 const MEMORY_FILE_PATH = path.join(__dirname, 'memory.json');
 
 // We are storing our memory using entities, relations, and observations in a graph structure
@@ -71,9 +71,9 @@ class KnowledgeGraphManager {
 
   async createRelations(relations: Relation[]): Promise<Relation[]> {
     const graph = await this.loadGraph();
-    const newRelations = relations.filter(r => !graph.relations.some(existingRelation => 
-      existingRelation.from === r.from && 
-      existingRelation.to === r.to && 
+    const newRelations = relations.filter(r => !graph.relations.some(existingRelation =>
+      existingRelation.from === r.from &&
+      existingRelation.to === r.to &&
       existingRelation.relationType === r.relationType
     ));
     graph.relations.push(...newRelations);
@@ -116,9 +116,9 @@ class KnowledgeGraphManager {
 
   async deleteRelations(relations: Relation[]): Promise<void> {
     const graph = await this.loadGraph();
-    graph.relations = graph.relations.filter(r => !relations.some(delRelation => 
-      r.from === delRelation.from && 
-      r.to === delRelation.to && 
+    graph.relations = graph.relations.filter(r => !relations.some(delRelation =>
+      r.from === delRelation.from &&
+      r.to === delRelation.to &&
       r.relationType === delRelation.relationType
     ));
     await this.saveGraph(graph);
@@ -131,49 +131,49 @@ class KnowledgeGraphManager {
   // Very basic search function
   async searchNodes(query: string): Promise<KnowledgeGraph> {
     const graph = await this.loadGraph();
-    
+
     // Filter entities
-    const filteredEntities = graph.entities.filter(e => 
+    const filteredEntities = graph.entities.filter(e =>
       e.name.toLowerCase().includes(query.toLowerCase()) ||
       e.entityType.toLowerCase().includes(query.toLowerCase()) ||
       e.observations.some(o => o.toLowerCase().includes(query.toLowerCase()))
     );
-  
+
     // Create a Set of filtered entity names for quick lookup
     const filteredEntityNames = new Set(filteredEntities.map(e => e.name));
-  
+
     // Filter relations to only include those between filtered entities
-    const filteredRelations = graph.relations.filter(r => 
+    const filteredRelations = graph.relations.filter(r =>
       filteredEntityNames.has(r.from) && filteredEntityNames.has(r.to)
     );
-  
+
     const filteredGraph: KnowledgeGraph = {
       entities: filteredEntities,
       relations: filteredRelations,
     };
-  
+
     return filteredGraph;
   }
 
   async openNodes(names: string[]): Promise<KnowledgeGraph> {
     const graph = await this.loadGraph();
-    
+
     // Filter entities
     const filteredEntities = graph.entities.filter(e => names.includes(e.name));
-  
+
     // Create a Set of filtered entity names for quick lookup
     const filteredEntityNames = new Set(filteredEntities.map(e => e.name));
-  
+
     // Filter relations to only include those between filtered entities
-    const filteredRelations = graph.relations.filter(r => 
+    const filteredRelations = graph.relations.filter(r =>
       filteredEntityNames.has(r.from) && filteredEntityNames.has(r.to)
     );
-  
+
     const filteredGraph: KnowledgeGraph = {
       entities: filteredEntities,
       relations: filteredRelations,
     };
-  
+
     return filteredGraph;
   }
 }
@@ -185,11 +185,11 @@ const knowledgeGraphManager = new KnowledgeGraphManager();
 const server = new Server({
   name: "memory-server",
   version: "1.0.0",
-},    {
-    capabilities: {
-      tools: {},
-    },
-  },);
+}, {
+  capabilities: {
+    tools: {},
+  },
+},);
 
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   return {
@@ -207,8 +207,8 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
                 properties: {
                   name: { type: "string", description: "The name of the entity" },
                   entityType: { type: "string", description: "The type of the entity" },
-                  observations: { 
-                    type: "array", 
+                  observations: {
+                    type: "array",
                     items: { type: "string" },
                     description: "An array of observation contents associated with the entity"
                   },
@@ -254,8 +254,8 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
                 type: "object",
                 properties: {
                   entityName: { type: "string", description: "The name of the entity to add the observations to" },
-                  contents: { 
-                    type: "array", 
+                  contents: {
+                    type: "array",
                     items: { type: "string" },
                     description: "An array of observation contents to add"
                   },
@@ -273,10 +273,10 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         inputSchema: {
           type: "object",
           properties: {
-            entityNames: { 
-              type: "array", 
+            entityNames: {
+              type: "array",
               items: { type: "string" },
-              description: "An array of entity names to delete" 
+              description: "An array of entity names to delete"
             },
           },
           required: ["entityNames"],
@@ -294,8 +294,8 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
                 type: "object",
                 properties: {
                   entityName: { type: "string", description: "The name of the entity containing the observations" },
-                  observations: { 
-                    type: "array", 
+                  observations: {
+                    type: "array",
                     items: { type: "string" },
                     description: "An array of observations to delete"
                   },
@@ -313,8 +313,8 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         inputSchema: {
           type: "object",
           properties: {
-            relations: { 
-              type: "array", 
+            relations: {
+              type: "array",
               items: {
                 type: "object",
                 properties: {
@@ -324,7 +324,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
                 },
                 required: ["from", "to", "relationType"],
               },
-              description: "An array of relations to delete" 
+              description: "An array of relations to delete"
             },
           },
           required: ["relations"],
