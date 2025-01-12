@@ -1,0 +1,29 @@
+{
+  "name": "mcp-telegram-server",
+  "version": "0.1.0",
+  "description": "Telegram server for Model Context Protocol",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "mcp-telegram": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc --noEmitOnError false && shx chmod +x dist/*.js",
+    "prepare": "npm run build",
+    "watch": "tsc --watch",
+    "inspector": "npx @modelcontextprotocol/inspector build/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.1.1",
+    "node-telegram-bot-api": "^0.66.0"
+  },
+  "devDependencies": {
+    "shx": "^0.3.4",
+    "@types/node": "^20.11.24",
+    "typescript": "^5.3.3",
+    "@types/node-telegram-bot-api": "^0.64.7"
+  }
+}
