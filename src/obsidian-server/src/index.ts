@@ -65,7 +65,18 @@ class ObsidianServer {
   }
 
   private async writeNote(notePath: string, content: string, frontmatter?: Record<string, any>): Promise<void> {
-    const fullPath = path.join(VAULT_PATH_STRING, notePath);
+    // Check if path contains directory separators
+    if (notePath.includes('/') || notePath.includes('\\')) {
+      throw new McpError(
+        ErrorCode.InvalidParams,
+        'Writing to subdirectories is not allowed. Notes must be created in the vault root.'
+      );
+    }
+
+    // Ensure the file has .md extension
+    const fileName = notePath.endsWith('.md') ? notePath : `${notePath}.md`;
+    const fullPath = path.join(VAULT_PATH_STRING, fileName);
+
     let fileContent = content;
     if (frontmatter) {
       fileContent = matter.stringify(content, frontmatter);
